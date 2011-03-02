@@ -1,0 +1,31 @@
+module QuickResponse
+  module Shorthand
+    def new(*args)
+      args.first.is_a?(Symbol) ? send(*args) : text(*args)
+    end
+
+    def text(*args)
+      ::QuickResponse::Text.new(*args)
+    end
+
+    def url(*args)
+      ::QuickResponse::URL.new(*args)
+    end
+
+    def email(*args)
+      ::QuickResponse::Email.new(*args)
+    end
+
+    def call(*args)
+      ::QuickResponse::Call.new(*args)
+    end
+
+    def sms(*args)
+      ::QuickResponse::SMS.new(*args)
+    end
+
+    def geo(*args)
+      ::QuickResponse::Geo.new(*args)
+    end
+  end
+end
