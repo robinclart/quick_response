@@ -3,7 +3,8 @@ module QuickResponse
     format "http://maps.google.com/maps?q=(.*)"
 
     def initialize(*args)
-      super(*args.each { |a| CGI.escape(a) })
+      args = args.map { |a| CGI.escape(a) }
+      super(*args)
     end
   end
 end
