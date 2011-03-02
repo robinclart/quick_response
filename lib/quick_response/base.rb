@@ -19,12 +19,25 @@ module QuickResponse
     end
 
     def image_url
-      uri = URI.parse(GOOGLE_CHART_API)
-      uri.query = [cht, chs, chl].join("&")
       uri.to_s
     end
 
+    def save(location = "./qr.png")
+      Net::HTTP.start(uri.host) do |http|
+        resp = http.get(image_url)
+        open(location, 'wb') do |file|
+          file.write(resp.body)
+        end
+      end
+    end
+
     private
+
+    def uri
+      @uri ||= URI.parse(GOOGLE_CHART_API)
+      @uri.query = [cht, chs, chl].join("&")
+      @uri
+    end
 
     def cht
       param :cht, "qr"

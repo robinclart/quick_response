@@ -1,5 +1,6 @@
 require 'cgi'
 require 'uri'
+require 'net/http'
 
 module QuickResponse
   autoload :Base,       "quick_response/base"
