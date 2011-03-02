@@ -27,5 +27,9 @@ module QuickResponse
     def geo(*args)
       ::QuickResponse::Geo.new(*args)
     end
+
+    def maps(*args)
+      ::QuickResponse::Maps.new(*args)
+    end
   end
 end

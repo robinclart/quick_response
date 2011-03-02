@@ -11,6 +11,7 @@ module QuickResponse
   autoload :Call,       "quick_response/types/call"
   autoload :Sms,        "quick_response/types/sms"
   autoload :Geo,        "quick_response/types/geo"
+  autoload :Maps,       "quick_response/types/maps"
 
   autoload :Shorthand,  "quick_response/shorthand"
 
