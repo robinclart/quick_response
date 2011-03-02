@@ -9,7 +9,7 @@ module QuickResponse
     end
 
     def url(*args)
-      ::QuickResponse::URL.new(*args)
+      ::QuickResponse::Url.new(*args)
     end
 
     def email(*args)
@@ -21,7 +21,7 @@ module QuickResponse
     end
 
     def sms(*args)
-      ::QuickResponse::SMS.new(*args)
+      ::QuickResponse::Sms.new(*args)
     end
 
     def geo(*args)
