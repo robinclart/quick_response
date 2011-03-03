@@ -10,12 +10,12 @@ module QuickResponse
       # Extract options
       options = args.last.is_a?(Hash) ? DEFAULT_OPTIONS.merge(args.pop) : DEFAULT_OPTIONS
 
-      @content = to_format(args)
+      @content = to_format(*args)
       @size    = options[:size]
     end
 
     def content=(*args)
-      @content = to_format(args)
+      @content = to_format(*args)
     end
 
     def image_url
@@ -56,7 +56,7 @@ module QuickResponse
     end
 
     def self.format(format, options = {})
-      define_method :to_format do |args|
+      define_method :to_format do |*args|
         args   = args.slice(0, options[:limit]) if options[:limit]
         args   = args.map { |a| CGI.escape(a) } if options[:query]
         output = options[:output] || format
