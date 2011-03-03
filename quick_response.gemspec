@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ["robin@charlin.be"]
   s.homepage    = "http://rubygems.org/gems/quick_response"
   s.summary     = "QR code generator"
-  s.description = "A simple gem that output an image url for a given data"
+  s.description = "A simple QR Code generator based on the Google Chart API"
 
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "quick_response"
