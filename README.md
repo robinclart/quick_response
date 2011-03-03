@@ -1,6 +1,6 @@
 # QuickResponse
 
-QuickResponse is a **QR Code Generator**. It doesn't rely on any image manipulation library. Instead it's thin wrapper around the **Google Chart API**.
+QuickResponse is a **QR Code Generator**. It doesn't rely on any image manipulation library. Instead it's a thin wrapper around the **Google Chart API**.
 
 ## Installation
 
@@ -60,4 +60,66 @@ Available types are:
   * Geo (Takes two arguments `longitude` and `lattitude`)
   * Maps (Take an address as first argument and return a link to Google Maps)
 
+## Write Your Own Type
 
+First you need to know what a type is. Basically a type is a class that inherit from QuickResponse::Base and defines a `to_format` instance method. Simple isn't it?
+
+### Requirements
+
+In order to work the `to_format` must accept an unlimited number of arguments and return a string.
+
+### Real Life Examples
+
+Let's take a look at the `Call:Class`:
+
+    module QuickResponse
+      class Call < ::QuickResponse::Base
+        format "tel:(.*)", :limit => 1
+      end
+    end
+
+Here the `format` class method will generate dynamically a to_format method with the right behavior for us.
+
+But what is it doing exactly? It's gonna check if the supplied argument match the format. If yes it will just return it untouched. If not it will replace the "(.\*)" sequence by the argument.  
+As a result of this, these two lines will output the same result
+
+    QuickResponse.call("+1234567890")
+    => #<QuickResponse::Call @content="tel:+1234567890", @size=256>
+    
+    QuickResponse.call("tel:+1234567890")
+    => #<QuickResponse::Call @content="tel:+1234567890", @size=256> 
+
+This is particularly useful with the `Url:Class` because if you had already supply http or https it won't add the protocol again.
+
+    module QuickResponse
+      class Url < ::QuickResponse::Base
+        format "http[s]?:\/{2}(.*)", :output => "http://(.*)", :join => "/"
+      end
+    end
+
+### The `format` Options
+
+  * join(String): The join between the arguments
+  * limit(Integer): The number of arguments the class accepts
+  * output(String): If your first argument is too complex and can't be replaced. (i.e. `Url:Class`)
+  * query(Boolean): If set to true the arguments will be escaped.
+
+### A `Search` Type
+
+Let's say we want to create a new type which lets us pass a query to a search engine:
+
+    # WARNING: This class is not included in the gem.
+    module QuickResponse
+      def self.search(query)
+        ::QuickResponse::Search.new(query)
+      end
+      
+      class Search < ::QuickResponse::Base
+        format "http://www.google.com/search?q=(.*)", :limit => 1, :query => true
+      end
+    end
+
+We can now do:
+
+    QuickResponse.search("Robin Clart")
+    => #<QuickResponse::Search @content="http://www.google.com/search?q=Robin+Clart", @size=256>
