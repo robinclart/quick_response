@@ -1,5 +1,5 @@
 module QuickResponse
   class Text < ::QuickResponse::Base
-    format "(.*)"
+    format "(.*)", :join => " "
   end
 end
