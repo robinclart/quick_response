@@ -22,7 +22,7 @@ module QuickResponse
       uri.to_s
     end
 
-    def save(location = "./qr.png")
+    def save(location)
       Net::HTTP.start(uri.host) do |http|
         resp = http.get(image_url)
         open(location, 'wb') do |file|
